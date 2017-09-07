@@ -12,7 +12,7 @@ def dijkstra(start, graph, dist):
         for v in graph[node[1]]:
             if int(dist[v[0]]) > int(node[0]) + int(v[1]):
                 dist[v[0]] = int(node[0]) + int(v[1])
-                pq.put([dist[v[0]], v[0]])
+                pq.put([-dist[v[0]], v[0]])
     return dist
 
 # n é a quantidade de vértices e m é a quantidade de arestas
