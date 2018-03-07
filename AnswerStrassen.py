@@ -33,20 +33,42 @@ def readFiles( name_m1 , name_m2 ):
 	return matrix1 , matrix2
 
 
-l = ["c14111252"]
+l = ["Aluno1", "Aluno2"]
+
+def equal( m1 , m2 ):
+
+	if len(m1) != len(m2): return False
+	
+	for i in range(len(m1)):
+		if len(m1[i]) != len(m2[i]) : return False
+
+	for i in range( len(m1) ):
+		for j in range( len(m1[i]) ):
+			if( m1[i][j] != m2[i][j] ) : return False
+
+	return True
+
 
 for i in l:
+	points = 0
 	try:
 		loader = importlib.import_module(i)
-	except ImportError as err:
-		print('Error:', err)
-	m1 , m2 = readFiles("../M1_1.in","../M2_1.in")
-	
+	except Exception as e:
+		print('Error:', e)
+		continue
 
-	a = loader.Strassen( m1, m2 )
+	for j in range(1,11):
+		m1 , m2 = readFiles("../M1_{}.in".format(j),"../M2_{}.in".format(j))
+		try:
+			a = loader.Strassen( m1, m2 )
+		except Exception as e:
+			print('Caso {}: Error -'.format(j), e)
+			continue
+		m3 = readFile("../M3_{}.in".format(j), len(m1))
+		if( equal(m3,a) ):
+			print('Caso {}: OK'.format(j))
+			points += 1
+		else:
+			print('Caso {}: Error -'.format(j), "Diferente")
 
-	m3 = readFile("../M3_1.in", len(m1))
-
-	print("A" , m3)
-	print("F" , a)
-	
+	print( i , points )
